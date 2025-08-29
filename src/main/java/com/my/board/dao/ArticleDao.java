@@ -41,4 +41,12 @@ public class ArticleDao {
         em.persist(article); // INSERT SQL 으로 전송X (쓰기지연)
         em.flush(); // 여기서 INSERT SQL 즉시 실행
     }
+
+    public void updateArticles(ArticleDto dto) {
+        Article article = em.find(Article.class, dto.getId()); /* Article 에서 dto를 찾아서 넣음 */
+        article.setTitle(dto.getTitle());
+        article.setContent(dto.getContent());
+        // title과 content만 바꿔줌
+    }
+
 }
