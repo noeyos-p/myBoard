@@ -6,17 +6,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class CommentDto {
     private Long id;
-    private String nickName;
+    private String nickname;
     private String body;
 
     public static CommentDto fromComment(Comment comment) {
         return new CommentDto(
                 comment.getId(),
-                comment.getNickName(),
+                comment.getNickname(),
                 comment.getBody()
         );
     }
@@ -24,7 +24,7 @@ public class CommentDto {
     public static Comment fromDto(CommentDto dto) {
         Comment comment = new Comment();
         comment.setId(dto.getId());
-        comment.setNickName(dto.getNickName());
+        comment.setNickname(dto.getNickname());
         comment.setBody(dto.getBody());
         return comment;
     }

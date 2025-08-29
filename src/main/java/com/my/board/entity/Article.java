@@ -19,6 +19,9 @@ public class Article {
     @Column(nullable = false, length = 1000)
     private String content;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "article", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(fetch = FetchType.LAZY,
+            mappedBy = "article",
+            cascade = {CascadeType.PERSIST,
+                    CascadeType.REMOVE})
     List<Comment> comments = new ArrayList<>();
 }
