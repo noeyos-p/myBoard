@@ -25,4 +25,9 @@ public class ArticleDao {
         return em.find(Article.class, id);
         // Article.class는 클래스 객체를 의미함
     }
+
+    public void deleteArticle(Long id) {
+        Article article = em.find(Article.class, id);
+        em.remove(article);
+    }
 }

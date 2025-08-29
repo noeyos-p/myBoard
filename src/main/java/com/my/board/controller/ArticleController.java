@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -59,6 +60,10 @@ public class ArticleController {
         return "/articles/show";
     }
 
-    /*@GetMapping("{id}/delete")
-    public String*/
+    @GetMapping("{id}/delete")
+    public String deleteArticles(@PathVariable("id")Long id, RedirectAttributes redirectAttributes) {
+        articleService.deleteArticle(id);
+        redirectAttributes.addFlashAttribute("msg", "정상적으로 삭제되었습니다.");
+        return "redirect:/articles";
+    }
 }
