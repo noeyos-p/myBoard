@@ -10,10 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -80,6 +77,21 @@ public class ArticleController {
     public String createArticle(ArticleDto dto, RedirectAttributes redirectAttributes) {
         articleService.insertArticle(dto);
         redirectAttributes.addFlashAttribute("msg", "새로운 게시글이 등록되었습니다");
+        return "redirect:/articles";
+    }
+
+    // 업데이트 화면 보이기
+    @GetMapping("{id}/update")
+    public String viewUpdateArticle(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
+        model.addAttribute("dto", articleService.getOneArticle(id));
+        /*redirectAttributes.addFlashAttribute("msg", "정상적으로 수정되었습니다.");*/
+        return "/articles/update";
+    }
+
+    @PostMapping("/update")
+    public String updateArticle(@ModelAttribute("dto") ArticleDto dto) {
+        System.out.println(dto);
+        articleService.updateArticle(dto);
         return "redirect:/articles";
     }
 }
