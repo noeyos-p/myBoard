@@ -11,12 +11,13 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
 @Controller
-@RequestMapping ("articles")
+@RequestMapping("articles")
 @RequiredArgsConstructor
 public class ArticleController {
     private final ArticleService articleService;
@@ -28,7 +29,7 @@ public class ArticleController {
                                        page = 0,
                                        size = 5,
                                        sort = "id",
-                                       direction = Sort.Direction.DESC)Pageable pageable) {
+                                       direction = Sort.Direction.DESC) Pageable pageable) {
         // controller -> service -> dao(Data Access Object)
         // List<ArticleDto> articles = articleService.getAllArticle();
         Page<ArticleDto> articles = articleService.getArticlePage(pageable);
@@ -41,10 +42,23 @@ public class ArticleController {
         int currentPage = articles.getNumber();
         System.out.println("CurrentPage : " + currentPage);
         // 3. paginationService 에서 페이지 블럭을 열어온다.
-        List<Integer>  barNumber= paginationService.getPaginationBarNumber(currentPage, totalPage);
+        List<Integer> barNumber = paginationService.getPaginationBarNumber(currentPage, totalPage);
         System.out.println("==== " + barNumber.toString());
         model.addAttribute("pageBars", barNumber);
         model.addAttribute("articles", articles);
         return "articles/show_all";
     }
+
+    @GetMapping("{id}")
+    public String showOneArticle(@PathVariable("id") Long id, Model model) {
+        // id로 게시글 검색 후
+        // dto로 변환해서 show.html에 보냄
+        // 여기는 댓글인 comment 도 리스트로 갖고 있다
+        ArticleDto dto = articleService.getOneArticle(id);
+        model.addAttribute("dto", dto);
+        return "/articles/show";
+    }
+
+    /*@GetMapping("{id}/delete")
+    public String*/
 }
